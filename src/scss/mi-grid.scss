@@ -1,0 +1,30 @@
+  $cssCore: false;
+  $cssHelpers: false;
+  $devMode: false;
+  $container : ed-container !default; 
+  $item      : ed-item !default;
+  $max-width : 1440px !default;
+  $gutter : 0;
+  $breakpoints : (
+    s  : 0,
+    m  : 640px,
+    l  : 1024px,
+    xl : 1440px
+  ) !default;
+  $fractions : 3 6 !default;
+
+// Importar componentes
+// @import "components/base";            // estilos base
+// @import "components/media-queries";   // mixins from(), to(), fromTo()
+// @import "components/helpers";         // utilidades
+// @import "components/dev";             // modo dev
+// @import "components/core";            // core de EDgrid (containers y items)
+// @import "components/grid";            // mixin grid()
+// @import "components/visibility";      // mixins para visibilidad
+// @import "components/video";           // video RWD
+// @import "components/ed-menu";         // estilos para menus
+// @import "components/flexbox";         // utilidades con flexbox
+// @import "components/offset";          // offsets
+// @import "components/buttons";         // mixin button()
+// @import "components/css-core";        // componentes que se compilaran por default a css
+// @import "components/css-helpers";     // ayudas en css (por medio de clases)
