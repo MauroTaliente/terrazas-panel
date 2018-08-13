@@ -17,5 +17,6 @@ export default {
   body{
     color: wheat;
     background-color: black;
+    position: relative;
   }
 </style>

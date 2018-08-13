@@ -58,16 +58,16 @@ export default {
   },
   methods:{
     emitToggle (){
-      this.$emit('emitToggle'); 
+      this.$emit('emitToggle');
     },
     emitReset (){
-      this.$emit('emitReset');   
+      this.$emit('emitReset');
     },
     emitClose (){
-      this.$emit('emitClose');   
+      this.$emit('emitClose');
     },
     send (){
-      this.$emit('send', this.type);  
+      this.$emit('send', this.type);
     }
   }
 }
@@ -130,7 +130,7 @@ export default {
     @include flex;
     position: relative;
     padding: 0.5em 0;
-    border-top: 2px solid $color-fondo; 
+    border-top: 2px solid $color-fondo;
   }
   .launchArea{
     cursor: pointer;

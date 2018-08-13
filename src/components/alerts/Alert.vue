@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     acp() {
-      let el = this.elId        
+      let el = this.elId
       this.$emit('acp', el);
       this.can()
     },
@@ -70,7 +70,7 @@ export default {
     width: 100vw;
     top: 0;
     left: 0;
-    background-color: #18181deb;
+    background-color: rgba(0,0,0, 0.5);
   }
   .alerCard{
     @include blueCard;

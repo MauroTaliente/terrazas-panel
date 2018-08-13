@@ -28,25 +28,25 @@
                     required
                     :oNmodel="category.name"
                     v-model="category.name"
-                    v-on:input="superAdd">
+                    v-on:input="categoryControl('new')">
                   </inputText>
                   <inputText
                     name='Descripcion'
                     :oNmodel="category.info"
                     v-model="category.info"
-                    v-on:input="superAdd">
-                  </inputText> 
-                    <inputBoolean 
+                    v-on:input="categoryControl('new')">
+                  </inputText>
+                    <inputBoolean
                       name="Estado"
                       :oNmodel="category.state"
                       v-model="category.state"
                       :state="category.state"
                       textOn="Categoria Activa"
                       textOff="Categoria Inactiva">
-                    </inputBoolean>     
+                    </inputBoolean>
                 </div>
                 <div class="row item50">
-                  <inputImage 
+                  <inputImage
                     name="Imagen de la categoria"
                     :editImage="editImageCat"
                     v-model="selectImageCat"
@@ -76,7 +76,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Crear y Editar store -->
       <div class="createStore"
            v-show="!editMode">
@@ -110,7 +110,7 @@
                   <inputEditor name='Descripción'
                               :oNmodel="store.info"
                               v-model="store.info">
-                  </inputEditor>        
+                  </inputEditor>
                 </div>
                 <div class="row">
                     <div class="col">
@@ -139,7 +139,7 @@
                     </inputSelect>
                 </div>
                 <div class="row">
-                  <inputImage 
+                  <inputImage
                     name="logo del local"
                     :editImage="editImage"
                     v-model="selectImage">
@@ -156,7 +156,7 @@
                       :oNmodel="store.tel"
                       v-model="store.tel">
                     </inputText>
-                    <inputBoolean 
+                    <inputBoolean
                       name="Estado"
                       :oNmodel="store.state"
                       v-model="store.state"
@@ -237,7 +237,7 @@
           </div>
         </div>
       </div>
- 
+
       <!-- locales seleccionados para esta categoria -->
       <div :class="['viewInStores', viewAllStoresEm]"
          v-if="editMode">
@@ -257,7 +257,7 @@
               :editMode="editMode">
             </displayCardList>
           </div>
-          <div class="launchArea" 
+          <div class="launchArea"
                 v-if="editMode">
             <span class="btnImportant"
                   v-on:click="categoryControl('send')">
@@ -298,13 +298,13 @@
     </transition>
 
      <div class="debug">
-      <!-- <pre><code>{{ $data }}</code></pre>
+      <!-- <pre><code>{{ $data.selectStores }}</code></pre>
       <br> -->
       <!--<pre><code>STORES SELECT{{ $data.selectStores }}</code></pre>
       <br>
       <pre><code>STORES DISCAR{{ $data.discardStores }}</code></pre>-->
-    </div> 
- 
+    </div>
+
   </div>
 </template>
 
@@ -443,7 +443,7 @@ export default {
   },
   methods:{
     toglleAction (section, id){
-      
+
       switch (section) {
         case 'fullForm':
           this.showFullForm = !this.showFullForm
@@ -482,14 +482,14 @@ export default {
       }, 2000);
     },
     setForm (action, id){
-      
+
       switch (action) {
         case 'add':
           this.formCard = {
             name: 'Nuevo Local',
             type: 'add'
           }
-          this.resetStore();   
+          this.resetStore();
         break;
         case 'edit':
           this.formCard = {
@@ -503,7 +503,7 @@ export default {
             type: 'addCat'
           }
           this.resetCategory();
-          this.displayStores = this.stores  
+          this.displayStores = this.stores
           this.editMode = false;
           break;
         case 'editCat':
@@ -532,17 +532,17 @@ export default {
     },
     // TRAEN LA DATA DE LA API
     getAllCategorys (){
-      axios.get( urlCategory ,config)   
+      axios.get( urlCategory ,config)
       .then(res => {
         // this.setMenssage(res)
-        this.categorys = res.data.categorysOrder;   
+        this.categorys = res.data.categorysOrder;
       })
       .catch(error => {
         this.setMenssage(error)
       })
     },
     getAllStores (){
-      axios.get( urlStore ,config)   
+      axios.get( urlStore ,config)
       .then(res => {
         // this.setMenssage(res)
         let stores = res.data.storesOrder
@@ -568,7 +568,7 @@ export default {
 
       if (discardStores.length >= n) {
         for (let i = 0; i < n; i++) {
-          selectStores.push(discardStores[i]);     
+          selectStores.push(discardStores[i]);
         }
         discardStores = discardStores.splice(n, resto);
         console.log(discardStores);
@@ -599,12 +599,12 @@ export default {
           formData.append('type', this.store.type);
           formData.append('state', this.store.state);
           formData.append('logo', image, image.name);
-          for (var i = 0; i < storeCategory.length; i++) { 
+          for (var i = 0; i < storeCategory.length; i++) {
             formData.append('category', storeCategory[i]._id);
           }
 
           for (var pair of formData.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
+            console.log(pair[0]+ ', ' + pair[1]);
           }
 
       axios.post(urlStore, formData)
@@ -625,7 +625,7 @@ export default {
 
       let storesEd = this.store.category
       let fullCategorys = this.categorys;
-      let selectCategorys = fullCategorys.filter(function(el){ 
+      let selectCategorys = fullCategorys.filter(function(el){
           return ~storesEd.indexOf(el._id)
       });
       this.selectCategorys = selectCategorys
@@ -635,7 +635,7 @@ export default {
       }, 100);
     },
     updateStore (e){
-    
+
       let storeCategory = this.selectCategorys;
       let image = this.selectImage
 
@@ -648,7 +648,7 @@ export default {
           formData.append('floor', this.store.floor);
           formData.append('type', this.store.type);
           formData.append('state', this.store.state);
-          for (var i = 0; i < storeCategory.length; i++) { 
+          for (var i = 0; i < storeCategory.length; i++) {
             formData.append('category', storeCategory[i]._id);
           }
 
@@ -659,7 +659,7 @@ export default {
           }
 
           // for (var pair of formData.entries()) {
-          //   console.log(pair[0]+ ', ' + pair[1]); 
+          //   console.log(pair[0]+ ', ' + pair[1]);
           // }
 
       axios.patch(`${urlStore}/${this.store._id}`, formData)
@@ -670,13 +670,13 @@ export default {
         this.toglleAction('add')
       })
     },
-    deleteStore (e){ 
+    deleteStore (e){
       axios.delete( `${urlStore}/${e}`, config)
       .then(res =>{
         this.getAllStores()
       })
     },
-    resetStore (e){  
+    resetStore (e){
       this.editImage = ''
       this.store = {
         _id: '',
@@ -691,9 +691,10 @@ export default {
         state: true,
         category: ''
       }
-      this.editImage = '',
-      this.selectImage = '',
-      this.selectCategorys = [],
+      this.editImage = '';
+      this.selectImage = '';
+      this.selectCategorys = [];
+
       setTimeout(() => {
         Bus.$emit('update');
       }, 150);
@@ -760,12 +761,12 @@ export default {
           formData2.append('state', this.category.state);
           formData2.append('categoryImage', image, image.name);
 
-          for (var i = 0; i < categoryStores.length; i++) { 
+          for (var i = 0; i < categoryStores.length; i++) {
             formData2.append('stores', categoryStores[i]._id);
           }
 
           for (var pair of formData2.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
+            console.log(pair[0]+ ', ' + pair[1]);
           }
 
       axios.post(urlCategory, formData2)
@@ -775,7 +776,7 @@ export default {
         this.resetCategory()
       })
     },
-    resetCategory (e){  
+    resetCategory (e){
       this.editImageCat = ''
       this.category = {
         _id: '',
@@ -785,10 +786,11 @@ export default {
         state: true,
         stores: ''
       }
-      this.editImageCat = '',
-      this.selectImageCat = '',
-      this.selectStores = [],
-      this.editMode = false
+      this.editImageCat = '';
+      this.selectImageCat = '';
+      this.selectStores = [];
+      this.storesProgresive(this.stores, 4)
+      this.editMode = false;
       setTimeout(() => {
         Bus.$emit('update');
       }, 150);
@@ -800,22 +802,22 @@ export default {
         this.editImageCat = '';
       }
       this.editImageCat = category.categoryImage
-      
+
       let storesEd = this.category.stores
       let fullStores = this.stores;
-      let selectStores = fullStores.filter(function(el){ 
+      let selectStores = fullStores.filter(function(el){
           return ~storesEd.indexOf(el._id)
       });
       this.selectStores = selectStores
-      
+
       this.setForm('editCat', category._id);
       this.getAllCategorys();
       setTimeout(() => {
-        Bus.$emit('update');     
+        Bus.$emit('update');
       }, 10);
     },
     updateCategory (e){
-    
+
       let image = this.selectImageCat
       let categoryStores = this.selectStores
 
@@ -824,18 +826,18 @@ export default {
           formData2.append('info', this.category.info);
           formData2.append('state', this.category.state);
           if (categoryStores !== []) {
-            for (var i = 0; i < categoryStores.length; i++) { 
+            for (var i = 0; i < categoryStores.length; i++) {
               formData2.append('stores', categoryStores[i]._id);
-            } 
+            }
           }
           if(this.category.categoryImage == 'delete'){
             formData2.append('categoryImage', 'delete')
           }else if(image){
             formData2.append('categoryImage', image, image.name);
           }
-          
+
           for (var pair of formData2.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
+            console.log(pair[0]+ ', ' + pair[1]);
           }
 
       axios.patch(`${urlCategory}/${this.category._id}`, formData2)
@@ -847,7 +849,7 @@ export default {
         this.displayStores = this.stores
       })
     },
-    deleteCategory (e){ 
+    deleteCategory (e){
       axios.delete( `${urlCategory}/${e}`, config)
       .then(res =>{
         this.getAllCategorys()
@@ -871,11 +873,14 @@ export default {
         case 'send':
           this.sendForm(this.formCardCat.type)
         break;
+        case 'new':
+          this.selectStores = [];
+          this.superAdd()
+        break;
         case 'edit':
           this.setForm('editCat')
           this.getCategory(el)
           this.superAdd()
-          // this.superAdd()
         break;
         case 'delete':
           this.toglleAction('deleteCat',el)
@@ -889,7 +894,12 @@ export default {
 
       // ScrollToSuperAdd('#locals')
       this.editMode = true
-      
+
+      if (this.cardList == false) {
+        this.toglleAction('list')
+      }
+
+
       let fullStores = this.stores // total disponible
       let discardStores = [] //descarte
       let selectStores = this.category.stores //son solo refenrencias por id
@@ -901,7 +911,7 @@ export default {
       });
 
       //Obtiene los Stores seleccionados completos #selectStores
-      selectStores = fullStores.filter(function(el){ 
+      selectStores = fullStores.filter(function(el){
         return ~selectStores.indexOf(el._id)
       });
 
@@ -917,7 +927,7 @@ export default {
 
       // get index of object with store ID
       let removeIndex = discardStores.map(function(item) {
-         return item._id; 
+         return item._id;
       }).indexOf(store._id);
       // remove object in collection
       discardStores.splice(removeIndex, 1);
@@ -933,7 +943,7 @@ export default {
 
         // get index of object with store ID
       let removeIndex = selectStores.map(function(item) {
-          return item._id; 
+          return item._id;
       }).indexOf(store._id);
       // remove object in collection
       selectStores.splice(removeIndex, 1);
@@ -965,7 +975,7 @@ export default {
 
   .viewCategorys{
     @include flex;
-    @include edItem(100,50);
+    @include edItem(100,100,50);
     position: relative;
     padding: 0 0.5rem;
     transition: 0.2s ease all;
@@ -1016,7 +1026,7 @@ export default {
          max-height: 45vh;
        }
      }
-   } 
+   }
    .inStores{
      .content{
       max-height: calc( 82vh - 370px );
@@ -1058,7 +1068,7 @@ export default {
       align-items: flex-start;
       position: relative;
       padding: 0.5em;
-      border-top: 2px solid $color-fondo; 
+      border-top: 2px solid $color-fondo;
       width: 100%;
     }
   }
@@ -1181,7 +1191,7 @@ export default {
     text-align: center;
     font-weight: 200;
   }
- 
+
 
   //ON-OFF
   .on{

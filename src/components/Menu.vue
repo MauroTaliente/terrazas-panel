@@ -8,12 +8,12 @@
         <User></User>
       </div>
       <div class="list">
-        <router-link :to="sections">
+        <!-- <router-link :to="sections">
           <i class="material-icons">more</i>
           <transition name="fade">
            <span v-if="menuBig">Secciones</span>
           </transition>
-        </router-link>
+        </router-link> -->
 
         <router-link :to="promos">
           <i class="material-icons">credit_card</i>
@@ -149,7 +149,7 @@ $breakpoints : (
       }
       span{
         font-weight: 200;
-        font-size: 1rem; 
+        font-size: 1rem;
         padding-left: 1rem;
       }
     }
@@ -198,6 +198,6 @@ $breakpoints : (
     margin: 0;
   }
 
- 
+
 </style>
 

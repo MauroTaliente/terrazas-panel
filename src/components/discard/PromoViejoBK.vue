@@ -2,12 +2,12 @@
   <div>
     <div class="box">
       <!-- Crea Promo -->
-      
+
       <transition name="fade" mode="out-in">
       <section :class="['actionWindow first', displayAddAction]" v-if="showAdd">
         <form class="vue-form" @submit.prevent="createPromo">
           <span class="windowComander" v-on:click="toglleAction('fullAdd')">
-            <i class="material-icons" 
+            <i class="material-icons"
                v-if="!showFullAddPromo">add_box</i>
             <i class="material-icons"
                v-if="showFullAddPromo">indeterminate_check_box</i>
@@ -30,26 +30,26 @@
                         :options='options'
                         v-on:edit='processEditOperation'>
                 </editor>
-              </div>          
+              </div>
             </div>
           </transition>
           <transition name="fade" mode="out-in">
             <div class="row" v-if="showFullAddPromo">
               <div class="item">
                 <label class="label" for="file">Imagen de la promo</label>
-              </div>  
+              </div>
               <div class="imageArea">
                 <label class="customUpload">
                 <i class="material-icons">insert_photo</i><p>{{ uploadMessage }}</p>
                 <input class="file"
                       type="file"
-                      name="promoImage" 
+                      name="promoImage"
                       @change="previewImage"
                       accept="image/*">
                 </label>
                 <transition name="fade" v-if="imageData.length > 0">
                 <section>
-                  <span type="buttom" class="btnCerrar" 
+                  <span type="buttom" class="btnCerrar"
                         v-on:click="deleteImage()">
                         <i class="material-icons">highlight_off</i>
                   </span>
@@ -102,7 +102,7 @@
                             :options="days">
                   </v-select>
                 </div>
-              </div>  
+              </div>
               <div class="item eventts">
                 <h4 class="label">Eventos relacionados</h4>
                 <v-select class="v-select-multiple"
@@ -118,12 +118,12 @@
             <div class="row" v-if="showFullAddPromo">
               <div class="item">
                 <h4 class="label" for="stores">Locales Adheridos / separar por ","</h4>
-                <textarea class="stores" name="stores" id="stores" required="" 
+                <textarea class="stores" name="stores" id="stores" required=""
                           v-model="promo.stores"></textarea>
               </div>
               <div class="item">
                 <h4 class="label" for="legals">Legales</h4>
-                <textarea class="legal" name="legals" id="legals" required="" 
+                <textarea class="legal" name="legals" id="legals" required=""
                           v-model="promo.legals" ></textarea>
               </div>
             </div>
@@ -144,7 +144,7 @@
         <section :class="['actionWindow', displayEditAction]" v-if="showEdit">
           <form class="vue-form" @submit.prevent="updatePromo">
             <span class="windowComander" v-on:click="toglleAction('fullEdit')">
-              <i class="material-icons" 
+              <i class="material-icons"
                 v-if="!showFullAddPromo">add_box
               </i>
               <i class="material-icons"
@@ -169,26 +169,26 @@
                           :options='options'
                           v-on:edit='processEditOperation'>
                   </editor>
-                </div>          
+                </div>
               </div>
             </transition>
             <transition name="fade" mode="out-in">
               <div class="row">
                 <div class="item">
                   <label class="label" for="file">Imagen de la promo</label>
-                </div>  
+                </div>
                 <div class="imageArea">
                   <label class="customUpload">
                   <i class="material-icons">insert_photo</i><p>{{ uploadMessage }}</p>
                   <input class="file"
                         type="file"
-                        name="promoImage" 
+                        name="promoImage"
                         @change="previewImage"
                         accept="image/*">
                   </label>
                   <transition name="fade">
                     <section v-if="editImage">
-                      <span type="buttom" class="btnCerrar" 
+                      <span type="buttom" class="btnCerrar"
                             v-on:click="deleteImage()">
                             <i class="material-icons">highlight_off</i>
                       </span>
@@ -197,7 +197,7 @@
                   </transition>
                   <transition name="fade">
                     <section v-if="imageData.length > 0">
-                      <span type="buttom" class="btnCerrar" 
+                      <span type="buttom" class="btnCerrar"
                             v-on:click="deleteImage()">
                             <i class="material-icons">highlight_off</i>
                       </span>
@@ -250,7 +250,7 @@
                               :options="days">
                     </v-select>
                   </div>
-                </div>  
+                </div>
                 <div class="item eventts">
                   <h4 class="label">Eventos relacionados</h4>
                   <v-select class="v-select-multiple"
@@ -266,12 +266,12 @@
               <div class="row">
                 <div class="item">
                   <h4 class="label" for="stores">Locales Adheridos / separar por ","</h4>
-                  <textarea class="stores" name="stores" id="stores" required="" 
+                  <textarea class="stores" name="stores" id="stores" required=""
                             v-model="promo.stores"></textarea>
                 </div>
                 <div class="item">
                   <h4 class="label" for="legals">Legales</h4>
-                  <textarea class="legal" name="legals" id="legals" required="" 
+                  <textarea class="legal" name="legals" id="legals" required=""
                             v-model="promo.legals" ></textarea>
                 </div>
               </div>
@@ -284,14 +284,14 @@
               </div>
             </transition>
           </form>
-        </section> 
+        </section>
       </transition>
 
       <!-- Elimiar Promo -->
       <transition name="fade">
         <section :class="['actionWindow', displayDeleteAction]" v-if="showDelete">
             <h1>Estas seguro de eliminar</h1>
-        </section>    
+        </section>
       </transition>
     </div>
 
@@ -315,12 +315,12 @@
             </button>
             <button class="btn"
                     v-on:click="promoArchive(this.promo)">
-              <i class="material-icons">folder</i> 
+              <i class="material-icons">folder</i>
             </button>
-            <button class="btn btnEliminar" 
+            <button class="btn btnEliminar"
                     :id="promo._id"
                     v-on:click="deletePromo(promo._id)">
-              <i class="material-icons">delete</i>      
+              <i class="material-icons">delete</i>
             </button>
             <div class="estado on" v-if="promo.validity.state == true">
               <i class="material-icons">done</i>
@@ -388,7 +388,7 @@ export default {
         year: '2018',
         month: '01',
         day: '01',
-      },  
+      },
       untilCreate:{
         year: '2019',
         month: '01',
@@ -441,7 +441,7 @@ export default {
 
       if (sou == 'since') {
         this.promo.since = `${dateS} 00:01`
-      }else if (sou === 'until'){    
+      }else if (sou === 'until'){
         this.promo.until = `${dateU} 00:01`
       }
     },
@@ -449,11 +449,11 @@ export default {
       switch (section) {
         case 'fullAdd':
           this.showFullAddPromo = !this.showFullAddPromo
-        break;  
+        break;
         case 'add':
           if (this.showAdd == false) {
             setTimeout(() => {
-              this.showAdd = !this.showAdd              
+              this.showAdd = !this.showAdd
             }, 210);
           }
           if (this.showEdit == true) {
@@ -466,7 +466,7 @@ export default {
           }
           if (this.showEdit == false) {
             setTimeout(() => {
-            this.showEdit = !this.showEdit              
+            this.showEdit = !this.showEdit
             }, 210);
           }
         break;
@@ -517,17 +517,17 @@ export default {
 
     // TRAEN LA DATA DE LA API
     getAlleventts (){
-      axios.get( urlEventt ,config)   
+      axios.get( urlEventt ,config)
       .then(res => {
         // this.setMenssage(res)
-        this.eventts = res.data.eventts;     
+        this.eventts = res.data.eventts;
       })
       .catch(error => {
         this.setMenssage(error)
       })
     },
     getAllPromos (){
-      axios.get( urlPromo ,config)   
+      axios.get( urlPromo ,config)
       .then(res => {
         // this.setMenssage(res)
         this.promos = res.data.promosOrder
@@ -551,14 +551,14 @@ export default {
           formData.append('legals', this.promo.legals);
           formData.append('since', this.promo.since);
           formData.append('until', this.promo.until);
-          for (var i = 0; i < promoEvents.length; i++) { 
+          for (var i = 0; i < promoEvents.length; i++) {
             formData.append('eventts', promoEvents[i]._id);
           }
           for (var i = 0; i < promoStores.length; i++) {
                   console.log(promoStores[i]);
             formData.append('stores', promoStores[i]);
           }
-          
+
       axios.post(urlPromo, formData)
       .then(res =>{
         this.setMenssage(res)
@@ -576,7 +576,7 @@ export default {
       let eventtsEd = this.promo.eventts
       let fullEvents = this.eventts;
 
-      fullEvents = fullEvents.filter(function(el){ 
+      fullEvents = fullEvents.filter(function(el){
           return ~eventtsEd.indexOf(el._id)
       });
 
@@ -595,12 +595,12 @@ export default {
           formData.append('name', this.promo.name);
           formData.append('info', this.promo.info);
           if (this.editImage == '') {
-            formData.append('promoImage', this.setImage, this.setImage.name);  
+            formData.append('promoImage', this.setImage, this.setImage.name);
           }
           formData.append('legals', this.promo.legals);
           formData.append('since', this.promo.since);
           formData.append('until', this.promo.until);
-          for (var i = 0; i < promoEvents.length; i++) { 
+          for (var i = 0; i < promoEvents.length; i++) {
             formData.append('eventts', promoEvents[i]._id);
           }
           for (var i = 0; i < promoStores.length; i++) {
@@ -995,7 +995,7 @@ $breakpoints : (
             color: $color-1;
             padding: 0.1rem;
             border: none;
-            border-left: 1px solid #00000020;
+            border-left: 1px solid #000020;
             text-shadow: none;
             opacity: 1;
             font-size: 1.2rem;
@@ -1033,7 +1033,7 @@ $breakpoints : (
       padding: 0 0.5rem;
       background-color: $color-3;
       border-radius: 0.4em;
-      border: 1px solid $color-fondo; 
+      border: 1px solid $color-fondo;
       box-shadow: 0px 0px 30px -10px $sombra;
       h2{
         width: 100%;
@@ -1063,7 +1063,7 @@ $breakpoints : (
       border-radius: 0.2em;
       background-color: $color-6;
       color: $color-5;
-      border: 1px solid $color-fondo; 
+      border: 1px solid $color-fondo;
       h4{
         @include flex;
         font-size: 1em;

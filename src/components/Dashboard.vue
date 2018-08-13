@@ -40,7 +40,11 @@ export default {
     margin-left: 5rem;
     padding: 2em 1em;
     background-color: $color-fondo;
+    background-image: url("/dist/demo.png");
+    background-position: center;
+    background-repeat: no-repeat;
   }
- 
+
+
 </style>
 

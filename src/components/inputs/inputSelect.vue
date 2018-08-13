@@ -45,10 +45,10 @@ export default {
   },
   methods:{
     updateInput () {
-        this.$emit('input', this.value);     
+        this.$emit('input', this.value);
     },
     reset (){
-        this.value = '';      
+        this.value = '';
     },
     update (){
         this.value = this.oNmodel
@@ -131,7 +131,7 @@ export default {
         color: $color-1;
         padding: 0.1rem;
         border: none;
-        border-left: 1px solid #00000020;
+        border-left: 1px solid #000020;
         text-shadow: none;
         opacity: 1;
         font-size: 1.2rem;

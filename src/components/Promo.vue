@@ -25,22 +25,22 @@
                 <inputEditor name='Descripción'
                             :oNmodel="promo.info"
                             v-model="promo.info">
-                </inputEditor>        
+                </inputEditor>
               </div>
               <div class="row">
-                <inputImage 
+                <inputImage
                   name="Imagen de la promo"
                   :editImage="editImage"
                   v-model="selectImage">
                 </inputImage>
               </div>
               <div class="row">
-                  <inputDate 
+                  <inputDate
                     name="Desde"
                     :oNmodel="promo.since"
                     v-model="promo.since">
                   </inputDate>
-                  <inputDate 
+                  <inputDate
                     name="Hasta"
                     :oNmodel="promo.until"
                     v-model="promo.until">
@@ -55,14 +55,14 @@
                   </inputSelect>
               </div>
               <div class="row">
-                <inputTextArea 
+                <inputTextArea
                   class="stores"
                   name="Locales"
                   desc=" Adheridos / separar por comas"
                   :oNmodel="promo.stores"
                   v-model="promo.stores">
                 </inputTextArea>
-                <inputTextArea 
+                <inputTextArea
                   class="legals"
                   name="Legales"
                   :oNmodel="promo.legals"
@@ -86,23 +86,29 @@
           <div class="header">
             <h2>Todas las Promos</h2>
           </div>
-          <div class="promoContainer" v-for="promo in promos" :key="promo._id">
+          <div class="promosContainer">
+            <div class="promoContainer" v-for="promo in promos" :key="promo._id">
               <div class="promoCard">
                 <h4>{{ promo.name }}</h4>
-                <img :src="url+promo.promoImage" :alt="promo.name">
+                <img v-if="promo.promoImage"
+                  :src="url+promo.promoImage"
+                  :alt="promo.name">
+                <img v-if="!promo.promoImage"
+                  src="/dist/none.jpg"
+                  :alt="promo.name">
                 <div class="controles">
-                  <button class="btn" 
+                  <button class="btn"
                     v-scroll-to="'#form'"
                     v-on:click="getPromo('form', promo)" >
                     <i class="material-icons">border_color</i>
                   </button>
                   <button class="btn"
-                          v-on:click="promoArchive(this.promo)">
-                    <i class="material-icons">folder</i> 
+                          v-on:click="promoArchive(promo)">
+                    <i class="material-icons">folder</i>
                   </button>
-                  <button class="btn btnEliminar" 
+                  <button class="btn btnEliminar"
                           v-on:click="toglleAction('delete', promo._id)">
-                    <i class="material-icons">delete</i> 
+                    <i class="material-icons">delete</i>
                   </button>
                   <div class="estado on" v-if="promo.validity.state == true">
                     <i class="material-icons">done</i>
@@ -111,6 +117,7 @@
                     <i class="material-icons">not_interested</i>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </section>
@@ -245,7 +252,7 @@ export default {
         this.setForm('add')
       }
     },
-    toglleAction (section, id){      
+    toglleAction (section, id){
       switch (section) {
         case 'fullForm':
           this.showFullForm = !this.showFullForm
@@ -269,17 +276,17 @@ export default {
     },
     // TRAEN LA DATA DE LA API
     getAlleventts (){
-      axios.get( urlEventt ,config)   
+      axios.get( urlEventt ,config)
       .then(res => {
         // this.setMenssage(res)
-        this.eventts = res.data.eventts;     
+        this.eventts = res.data.eventts;
       })
       .catch(error => {
         this.setMenssage(error)
       })
     },
     getAllPromos (){
-      axios.get( urlPromo ,config)   
+      axios.get( urlPromo ,config)
       .then(res => {
         // this.setMenssage(res)
         this.promos = res.data.promosOrder
@@ -289,36 +296,36 @@ export default {
       })
     },
     //PROMO
-    createPromo (e){
+    createPromo(e) {
       let promoEvents = this.selectEventts;
       let promoStores = this.promo.stores.split(',');
-      let image = this.selectImage
+      let image = this.selectImage;
 
       let formData = new FormData();
-          formData.append('_id', helpers.mongoObjectId())
-          formData.append('name', this.promo.name);
-          formData.append('info', this.promo.info);
-          formData.append('promoImage', image, image.name);
-          formData.append('legals', this.promo.legals);
-          formData.append('since', this.promo.since);
-          formData.append('until', this.promo.until);
-          for (var i = 0; i < promoEvents.length; i++) { 
-            formData.append('eventts', promoEvents[i]._id);
-          }
-          for (var i = 0; i < promoStores.length; i++) {
-            formData.append('stores', promoStores[i]);
-          }
+      formData.append('_id', helpers.mongoObjectId());
+      formData.append('name', this.promo.name);
+      formData.append('info', this.promo.info);
+      formData.append('promoImage', image, image.name);
+      formData.append('legals', this.promo.legals);
+      formData.append('since', this.promo.since);
+      formData.append('until', this.promo.until);
+      for (var i = 0; i < promoEvents.length; i++) {
+        formData.append('eventts', promoEvents[i]._id);
+      }
+      for (var i = 0; i < promoStores.length; i++) {
+        formData.append('stores', promoStores[i]);
+      }
 
-          // for (var pair of formData.entries()) {
-          //   console.log(pair[0]+ ', ' + pair[1]); 
-          // }
-          
+      // for (var pair of formData.entries()) {
+      //   console.log(pair[0]+ ', ' + pair[1]);
+      // }
+
       axios.post(urlPromo, formData)
-      .then(res =>{
-        this.setMenssage(res)
-        this.getAllPromos()
-        this.resetPromo()
-      })
+        .then(res => {
+          this.setMenssage(res)
+          this.getAllPromos()
+          this.resetPromo()
+        })
     },
     getPromo (action, promo){
       this.toglleAction(action)
@@ -332,19 +339,19 @@ export default {
       let eventtsEd = this.promo.eventts
       let fullEvents = this.eventts;
 
-   
+
       let selectEventts = []
       for (let i = 0; i < eventtsEd.length; i++) {
         fullEvents.map(function(x) {
            if (x._id == eventtsEd[i]) {
- 
+
              selectEventts.push(x)
-           } ;       
+           } ;
         });
       }
 
       this.selectEventts = selectEventts
- 
+
       if(promo.promoImage == 'delete'){
         this.editImage = '';
       }
@@ -353,11 +360,11 @@ export default {
       this.setForm('edit', promo._id);
       this.getAllPromos();
       setTimeout(() => {
-        Bus.$emit('update');     
+        Bus.$emit('update');
       }, 10);
     },
     updatePromo (){
-    
+
       let promoEvents = this.selectEventts;
       let promoStores = this.promo.stores.split(',');
       let image = this.selectImage
@@ -366,14 +373,14 @@ export default {
           formData.append('name', this.promo.name);
           formData.append('info', this.promo.info);
           if (image) {
-            formData.append('promoImage', image, image.name);  
+            formData.append('promoImage', image, image.name);
           }else if(this.promo.promoImage == 'delete'){
             formData.append('promoImage', 'delete')
           }
           formData.append('legals', this.promo.legals);
           formData.append('since', this.promo.since);
           formData.append('until', this.promo.until);
-          for (var i = 0; i < promoEvents.length; i++) { 
+          for (var i = 0; i < promoEvents.length; i++) {
             formData.append('eventts', promoEvents[i]._id);
           }
           for (var i = 0; i < promoStores.length; i++) {
@@ -388,7 +395,11 @@ export default {
         this.toglleAction('add')
       })
     },
-    deletePromo (e){ 
+    promoArchive (e){
+      console.log('Esta funcion es para archivar la promo');
+      return
+    },
+    deletePromo (e){
       axios.delete( `${urlPromo}/${e}`, config)
       .then(res =>{
         this.getAllPromos()
@@ -449,13 +460,19 @@ export default {
     text-align: center;
     font-weight: 200;
   }
- 
+
   //PROMOS CARDS
   .promosCard{
     @include flex;
     @include edContainer;
     @include blueCard;
     @include headerCard;
+  }
+  .promosContainer{
+    @include flex;
+    width: 100%;
+    padding: 1em 0 0 0;
+    border-top: 2px solid $color-fondo;
   }
   .promoContainer{
     @include flex;
@@ -474,7 +491,7 @@ export default {
     border-radius: 0.2em;
     background-color: $color-6;
     color: $color-5;
-    border: 1px solid $color-fondo; 
+    border: 1px solid $color-fondo;
     h4{
       @include flex;
       font-size: 1em;

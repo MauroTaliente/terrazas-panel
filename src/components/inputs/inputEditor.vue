@@ -43,14 +43,14 @@ export default {
   methods: {
     processEditOperation (operation){
       this.value = operation.api.origElements.innerHTML
-      this.$emit('input', this.value);   
+      this.$emit('input', this.value);
     },
     reset() {
       this.value = '';
     },
     update() {
       setTimeout(() => {
-        this.value = this.$props.oNmodel  
+        this.value = this.$props.oNmodel
       }, 100);
     }
   },
@@ -73,7 +73,7 @@ export default {
   width: 100%;
   padding: 0.6rem;
   font-size: 0.8rem;
-  color: $color-5;
+  color: #000;
   background-color: $color-1;
   outline: none;
   border: none;

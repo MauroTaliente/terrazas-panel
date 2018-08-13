@@ -16,7 +16,7 @@
       </label>
       <transition name="fade">
         <section v-if="editImagePath">
-          <span type="buttom" class="btnCerrar" 
+          <span type="buttom" class="btnCerrar"
                 v-on:click="deleteImage()">
                 <i class="material-icons">highlight_off</i>
           </span>
@@ -25,7 +25,7 @@
       </transition>
       <transition name="fade">
         <section v-if="imageData">
-          <span type="buttom" class="btnCerrar" 
+          <span type="buttom" class="btnCerrar"
                 v-on:click="deleteImage()">
                 <i class="material-icons">highlight_off</i>
           </span>
@@ -67,7 +67,7 @@ export default {
       setTimeout(() => {
         this.uploadMessage = '';
       }, 1000);
-   
+
       let input = event.target;
       if (input.files && input.files[0]) {
         this.setImage = input.files[0]
@@ -77,7 +77,7 @@ export default {
         }
         reader.readAsDataURL(input.files[0]);
       }
-      
+
     },
     deleteImage (){
       this.editImagePath = '';
@@ -85,7 +85,7 @@ export default {
       this.editImagePath = '';
       this.imageData = '';
       setTimeout(() => {
-        this.$emit('input', 'delete');     
+        this.$emit('input', 'delete');
       }, 20);
     },
     resetImage (){
@@ -94,10 +94,10 @@ export default {
       this.uploadMessage = '';
       this.imageData = '';
       setTimeout(() => {
-        this.$emit('input', '');     
+        this.$emit('input', '');
       }, 10);
     },
-    updateInput (){  
+    updateInput (){
       setTimeout(() => {
         this.$emit('input', this.setImage);
       }, 1);
@@ -108,7 +108,7 @@ export default {
         this.editImagePath = img
       }else {
         setTimeout(() => {
-          this.editImagePath = ''        
+          this.editImagePath = ''
         }, 10);
         this.imageData = '';
       }

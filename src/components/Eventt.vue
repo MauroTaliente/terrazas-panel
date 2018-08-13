@@ -6,7 +6,7 @@
       <transition name="fade" mode="out-in">
         <section id="form"
           class="actionWindow">
-          <superForm 
+          <superForm
             v-on:emitToggle="toglleAction('fullForm')"
             v-on:emitClose="setForm('add')"
             v-on:emitReset="resetEventt"
@@ -25,7 +25,7 @@
                 <inputEditor name='Descripción corta'
                              :oNmodel="eventt.shortInfo"
                             v-model="eventt.shortInfo">
-                </inputEditor>        
+                </inputEditor>
               </div>
               <div class="row">
                 <inputImage
@@ -35,19 +35,19 @@
                 </inputImage>
               </div>
               <div class="row">
-                <inputImage 
+                <inputImage
                   name="Imagen de portada"
                   :editImage="eventtCoverEdit"
                   v-model="eventtCoverSelect">
                 </inputImage>
               </div>
               <div class="row">
-                  <inputDate 
+                  <inputDate
                     name="Desde"
                     :oNmodel="eventt.since"
                     v-model="eventt.since">
                   </inputDate>
-                  <inputDate 
+                  <inputDate
                     name="Hasta"
                     :oNmodel="eventt.until"
                     v-model="eventt.until">
@@ -82,15 +82,14 @@
                             v-model="eventt.hour">
                 </inputText>
                 </div>
-
-                <inputBoolean 
+                <inputBoolean
                   name="Tipo de evento"
                   :oNmodel="eventt.type"
                   v-model="eventt.type"
+                  :state="eventt.type"
                   textOn="Evento destacado"
                   textOff="Evento simple">
                 </inputBoolean>
-
               </div>
             </section>
           </superForm>
@@ -109,10 +108,16 @@
           <div class="header">
             <h2>Todos los Eventos</h2>
           </div>
-          <div class="eventtContainer" v-for="eventt in eventts" :key="eventt._id">
+          <div class="eventtsContainer">
+            <div class="eventtContainer" v-for="eventt in eventts" :key="eventt._id">
               <div class="eventtCard">
                 <h4>{{ eventt.title }}</h4>
-                <img :src="url+eventt.eventtImage" :alt="eventt.title">
+                <img v-if="eventt.eventtImage"
+                  :src="url+eventt.eventtImage"
+                  :alt="eventt.title">
+                <img v-if="!eventt.eventtImage"
+                  src="/dist/none.jpg"
+                  :alt="eventt.title">
                 <div class="controles">
                   <button class="btn"
                     v-scroll-to="'#form'"
@@ -121,11 +126,11 @@
                   </button>
                   <button class="btn"
                           v-on:click="eventtArchive(this.eventt)">
-                    <i class="material-icons">folder</i> 
+                    <i class="material-icons">folder</i>
                   </button>
-                  <button class="btn btnEliminar" 
+                  <button class="btn btnEliminar"
                           v-on:click="toglleAction('delete', eventt._id)">
-                    <i class="material-icons">delete</i> 
+                    <i class="material-icons">delete</i>
                   </button>
                   <div class="estado on" v-if="eventt.validity.state == true">
                     <i class="material-icons">done</i>
@@ -134,6 +139,7 @@
                     <i class="material-icons">not_interested</i>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </section>
@@ -220,7 +226,7 @@ export default {
       eventt:{
         _id: '',
         title: '',
-        type: '',
+        type: false,
         info: '',
         shortInfo: '',
         eventtImage: '', /* ARCHIVO IMAGEN PRINCIPAL */
@@ -302,17 +308,17 @@ export default {
     },
     // TRAEN LA DATA DE LA API
     getAllEventts (){
-      axios.get( urlEventt ,config)   
+      axios.get( urlEventt ,config)
       .then(res => {
         // this.setMenssage(res)
-        this.eventts = res.data.eventtsOrder;     
+        this.eventts = res.data.eventtsOrder;
       })
       .catch(error => {
         this.setMenssage(error)
       })
     },
     getAllPromos (){
-      axios.get( urlPromo ,config)   
+      axios.get( urlPromo ,config)
       .then(res => {
         // this.setMenssage(res)
         this.promos = res.data.promos
@@ -323,30 +329,31 @@ export default {
     },
     //EVENTT
     createEventt (e){
- 
+
       let eventtPromos = this.selectPromos;
       let image = this.eventtImageSelect;
       let cover = this.eventtCoverSelect;
 
       let formData = new FormData();
+          formData.append('_id', helpers.mongoObjectId());
           formData.append('title', this.eventt.title);
           formData.append('info', this.eventt.info);
           formData.append('shortInfo', this.eventt.shortInfo);
-          formData.append('eventtImage', image, image.name);  
-          formData.append('eventtCover', cover, cover.name);  
+          formData.append('eventtImage', image, image.name);
+          formData.append('eventtCover', cover, cover.name);
           formData.append('type', this.eventt.type);
           formData.append('day', this.eventt.day);
           formData.append('hour', this.eventt.hour);
           formData.append('since', this.eventt.since);
           formData.append('until', this.eventt.until);
-          for (var i = 0; i < eventtPromos.length; i++) { 
+          for (var i = 0; i < eventtPromos.length; i++) {
             formData.append('promos', eventtPromos[i]._id);
           }
 
           // for (var pair of formData.entries()) {
-          //   console.log(pair[0]+ ', ' + pair[1]); 
+          //   console.log(pair[0]+ ', ' + pair[1]);
           // }
-          
+
       axios.post(urlEventt, formData)
       .then(res =>{
         this.setMenssage(res)
@@ -355,25 +362,25 @@ export default {
       })
     },
     getEventt (action, eventt){
-      
+
       this.toglleAction(action)
       this.eventt = eventt
       this.eventt.since = eventt.validity.since
       this.eventt.until = eventt.validity.until
 
       this.eventtImageEdit = eventt.eventtImage
-      if(eventt.eventtImage == 'delete'){
+      if(eventt.eventtImage == 'delete' || this.eventtImageEdit == undefined){
         this.eventtImageEdit = '';
       }
       this.eventtCoverEdit = eventt.eventtCover
-      if(eventt.eventtCover == 'delete'){
+      if(eventt.eventtCover == 'delete' || this.eventtCoverEdit == undefined){
         this.eventtCoverEdit = '';
       }
 
       let promosEd = this.eventt.promos
       let fullPromos = this.promos;
-      
-      fullPromos = fullPromos.filter(function(el){ 
+
+      fullPromos = fullPromos.filter(function(el){
         return ~promosEd.indexOf(el._id)
       });
       this.selectPromos = fullPromos
@@ -382,12 +389,12 @@ export default {
       this.getAllEventts();
       setTimeout(() => {
         // this.eventt.eventtImageEdit = ''
-        // this.eventt.eventtCoverEdit = ''  
+        // this.eventt.eventtCoverEdit = ''
         Bus.$emit('update');
-      }, 10);      
+      }, 10);
     },
     updateEventt (e){
-      
+
       let eventtPromos = this.selectPromos;
       let image = this.eventtImageSelect;
       let cover = this.eventtCoverSelect;
@@ -412,13 +419,13 @@ export default {
           formData.append('hour', this.eventt.hour);
           formData.append('since', this.eventt.since);
           formData.append('until', this.eventt.until);
-          for (var i = 0; i < eventtPromos.length; i++) { 
+          for (var i = 0; i < eventtPromos.length; i++) {
             formData.append('promos', eventtPromos[i]._id);
           }
 
 
           // for (var pair of formData.entries()) {
-          //   console.log(pair[0]+ ', ' + pair[1]); 
+          //   console.log(pair[0]+ ', ' + pair[1]);
           // }
 
       axios.patch(`${urlEventt}/${this.eventt._id}`, formData)
@@ -429,7 +436,7 @@ export default {
         this.resetEventt();
       })
     },
-    deleteEventt (e){ 
+    deleteEventt (e){
       axios.delete( `${urlEventt}/${e}`, config)
       .then(res =>{
         this.getAllEventts()
@@ -438,7 +445,7 @@ export default {
     resetEventt (){
         Bus.$emit('reset');
         this.eventtImageEdit = ''
-        this.eventtCoverEdit = ''  
+        this.eventtCoverEdit = ''
         this.Eventt = {
           name: '',
           info: '',
@@ -491,7 +498,7 @@ export default {
     text-align: center;
     font-weight: 200;
   }
- 
+
 
   //EVENTTS CARDS
   .eventtsCard{
@@ -499,6 +506,12 @@ export default {
     @include edContainer;
     @include blueCard;
     @include headerCard;
+  }
+  .eventtsContainer{
+    @include flex;
+    width: 100%;
+    padding: 1em 0 0 0;
+    border-top: 2px solid $color-fondo;
   }
   .eventtContainer{
     @include flex;
@@ -517,7 +530,7 @@ export default {
     border-radius: 0.2em;
     background-color: $color-6;
     color: $color-5;
-    border: 1px solid $color-fondo; 
+    border: 1px solid $color-fondo;
     h4{
       @include flex;
       font-size: 1em;
