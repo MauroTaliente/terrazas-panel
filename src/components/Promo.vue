@@ -246,7 +246,7 @@ export default {
       let type = this.formCard.type
       if (type == 'add') {
         this.createPromo()
-        this.setForm('edit')
+        this.setForm('add')
       }else if (type == 'edit') {
         this.updatePromo()
         this.setForm('add')

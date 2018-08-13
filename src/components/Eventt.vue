@@ -278,7 +278,7 @@ export default {
       let type = this.formCard.type
       if (type == 'add') {
         this.createEventt()
-        this.setForm('edit')
+        this.setForm('add')
       }else if (type == 'edit') {
         this.updateEventt()
         this.setForm('add')
