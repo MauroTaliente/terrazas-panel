@@ -315,7 +315,7 @@ import axios from 'axios';
 
 import moment,{ locale } from 'moment';
 import { Bus } from '../helpers/Bus.js'
-import { scroller } from 'vue-scrollto/src/scrollTo'
+// import { scroller } from 'vue-scrollto/src/scrollTo';
 
 import superForm2 from './superForm2'
 import inputText from './inputs/inputText'
@@ -336,7 +336,7 @@ const urlCategorySimple = `${helpers.api}category/simple`;
 const urlCategory = `${helpers.api}category`;
 const config = { headers: { authorization: 'Bearer ' + localStorage.token,
                             'Content-Type': 'multipart/form-data' }};
-const ScrollToSuperAdd = scroller();
+// const ScrollToSuperAdd = scroller();
 
 
 export default {
