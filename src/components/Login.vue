@@ -9,7 +9,7 @@
         </div>
         <div id="input-container">
           <div id="mail" class="group">
-            <input 
+            <input
              v-on:click="res.class = '',
                      res.text = '' "
              id="txtEmail" type="email">
@@ -32,7 +32,7 @@
 
         </div>
         <div class="btn-container">
-          <button 
+          <button
            id="btnLogin"
            class="btn btn-action"
            v-on:click="signInUser()">
@@ -50,7 +50,7 @@ import helpers from '../helpers'
 import axios from 'axios'
 import { log } from 'util';
 
-const urlSignIn = `${helpers.api}/signin`;
+const urlSignIn = `${helpers.api}signin`;
 
 export default {
   name: 'Login',
@@ -67,7 +67,7 @@ export default {
   methods: {
     signInUser: function() {
       var thisComponent = this;
-      
+
       axios.post(urlSignIn, {
         email: txtEmail.value,
         password: txtPassword.value,
@@ -78,7 +78,7 @@ export default {
         localStorage.setItem('token', response.data.token);
         //redirect logic
         if (response.status == '200') {
-          
+
           console.log(response.data.user.public_Id);
           let userId = response.data.user.public_Id
 
@@ -131,7 +131,7 @@ export default {
   min-height: auto;
   background-color: $color-err;
   color: $color-3;
-  transition: 0.2s ease all; 
+  transition: 0.2s ease all;
 }
 
 .log{
@@ -216,7 +216,7 @@ export default {
 
 #pass{
   input{
-   padding: 10px 0px 12px 54px; 
+   padding: 10px 0px 12px 54px;
   }
   input:focus {
   padding: 10px 10px 12px 10px;
