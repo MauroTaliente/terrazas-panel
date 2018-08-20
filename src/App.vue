@@ -101,6 +101,24 @@ h1,h2,h3,h4,h5,p,span{
   width: 100%;
 }
 
+  .loading{
+    @include flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 20;
+    top: 0;
+    right: 0;
+    background-color:rgba($color-3, 0.8);
+    width: 100%;
+    height: 100%;
+    img{
+      display: block;
+      width: 8rem;
+      height: 8rem;
+    }
+  }
+
 //CARDS
 .header{
   display: flex;
@@ -154,7 +172,7 @@ h1,h2,h3,h4,h5,p,span{
 .col{
     @include flex;
     width: 100%;
-    flex-direction: row;    
+    flex-direction: row;
   }
   .row{
     padding: 0;
@@ -177,7 +195,7 @@ h1,h2,h3,h4,h5,p,span{
     @include edItem(100,50,25,25);
     @include fromTo(s,l){
     margin-top: 0;
-    }   
+    }
   }
   .l75{
     margin-top: -0.5rem;
@@ -186,11 +204,11 @@ h1,h2,h3,h4,h5,p,span{
     @include edItem(100,50,75,75);
     @include fromTo(s,l){
     margin-top: 0;
-    }   
+    }
   }
   .a50{
     display: flex;
-    @include edItem(50)   
+    @include edItem(50)
   }
   .item {
     @include flex;

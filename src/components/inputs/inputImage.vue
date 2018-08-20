@@ -104,8 +104,7 @@ export default {
     },
     update() {
       if (this.$props.editImage !== '') {
-        let img = helpers.url + this.$props.editImage
-        this.editImagePath = img
+        this.editImagePath = this.$props.editImage
       }else {
         setTimeout(() => {
           this.editImagePath = ''

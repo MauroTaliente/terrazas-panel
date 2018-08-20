@@ -69,6 +69,10 @@
                   v-model="promo.legals">
                 </inputTextArea>
               </div>
+              <div class="loading"
+                v-if="loading">
+                  <img src="/dist/loadSolo.svg" alt="">
+              </div>
             </section>
           </superForm>
         </section>
@@ -91,7 +95,7 @@
               <div class="promoCard">
                 <h4>{{ promo.name }}</h4>
                 <img v-if="promo.promoImage"
-                  :src="url+promo.promoImage"
+                  :src="promo.promoImage"
                   :alt="promo.name">
                 <img v-if="!promo.promoImage"
                   src="/dist/none.jpg"
@@ -139,7 +143,11 @@
         :elId="promo._id">
       </alert>
     </transition>
-
+    <div class="debug">
+        <!-- <pre><code>{{ $data.promo }}</code></pre>
+        <pre><code>{{ $data.editImage }}</code></pre>
+        <pre><code>{{ $data.selectImage }}</code></pre> -->
+      </div>
   </div>
 </template>
 
@@ -186,6 +194,7 @@ export default {
         name:  'Nueva Promo',
         type: 'add'
       },
+      loading: false,
       showFullForm: true,
       showDelete: false,
       errorMenssage: '',
@@ -232,7 +241,7 @@ export default {
             name: 'Nueva Promo',
             type: 'add'
           }
-          this.resetPromo();
+
           break;
         case 'edit':
           this.formCard = {
@@ -296,8 +305,10 @@ export default {
     },
     //PROMO
     createPromo(e) {
+      this.loading = true
       let promoEvents = this.selectEventts;
       let promoStores = this.promo.stores.split(',');
+
       let image = this.selectImage;
 
       let formData = new FormData();
@@ -321,6 +332,7 @@ export default {
 
       axios.post(urlPromo, formData)
         .then(res => {
+          this.loading = false
           this.setMenssage(res)
           this.getAllPromos()
           this.resetPromo()
@@ -364,6 +376,7 @@ export default {
     },
     updatePromo (){
 
+      this.loading = true
       let promoEvents = this.selectEventts;
       let promoStores = this.promo.stores.split(',');
       let image = this.selectImage
@@ -388,6 +401,7 @@ export default {
 
       axios.patch(`${urlPromo}/${this.promo._id}`, formData)
       .then(res =>{
+        this.loading = false
         this.setMenssage(res);
         this.getAllPromos();
         this.resetPromo();
@@ -415,7 +429,7 @@ export default {
         since: '2018-01-01 00:01',
         until: '2018-01-01 00:01',
         eventts: [],
-        promos: []
+        stores: ''
       }
       Bus.$emit('reset');
     }
@@ -469,6 +483,7 @@ export default {
   }
   .promosContainer{
     @include flex;
+    align-items: flex-start;
     width: 100%;
     padding: 1em 0 0 0;
     border-top: 2px solid $color-fondo;
