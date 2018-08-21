@@ -306,9 +306,9 @@
      <div class="debug">
       <!-- <pre><code>{{ $data.selectStores }}</code></pre>
       <br> -->
-      <pre><code>STORES SELECT{{ $data.selectStores }}</code></pre>
+      <!-- <pre><code>STORES SELECT{{ $data.selectStores }}</code></pre>
       <br>
-      <pre><code>STORES DISCAR{{ $data.discardStores }}</code></pre>
+      <pre><code>STORES DISCAR{{ $data.discardStores }}</code></pre> -->
     </div>
 
   </div>
