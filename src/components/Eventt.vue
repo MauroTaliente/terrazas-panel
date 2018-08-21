@@ -333,7 +333,7 @@ export default {
     },
     //EVENTT
     createEventt (e){
-      this.loading = true
+      this.loading = true;
       let eventtPromos = this.selectPromos;
       let image = this.eventtImageSelect;
       let cover = this.eventtCoverSelect;
@@ -360,7 +360,7 @@ export default {
 
       axios.post(urlEventt, formData)
       .then(res =>{
-        this.loading = false
+        this.loading = false;
         this.setMenssage(res)
         this.getAllEventts()
         this.resetEventt()
@@ -441,6 +441,9 @@ export default {
         this.toglleAction('add')
         this.resetEventt();
       })
+      .catch(error => {
+        console.log(error)
+      });
     },
     deleteEventt (e){
       axios.delete( `${urlEventt}/${e}`, config)
