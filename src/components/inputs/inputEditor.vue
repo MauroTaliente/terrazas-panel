@@ -69,7 +69,8 @@ export default {
   display: block;
   min-height: 103px;
   position: relative;
-  overflow-y: scroll;
+  overflow: auto;
+  resize: both;
   width: 100%;
   padding: 0.6rem;
   font-size: 0.8rem;

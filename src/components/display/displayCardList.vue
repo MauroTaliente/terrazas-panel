@@ -5,12 +5,12 @@
        {{ name }}
     </h4>
     <ul class="contentContainer">
-      <li v-for="item in items" 
+      <li v-for="item in items"
           :key="item._id"
           class="itemContainer">
         <div class="itemCard">
           <div class="info">
-            <h4 class="number" 
+            <h4 class="number"
               v-show="cardList">
               {{ item.nStore }}
             </h4>
@@ -19,14 +19,14 @@
             </h4>
           </div>
           <img class="image"
-            :src="`${url}${item.logo}`" 
+            :src="`${item.logo}`"
             :alt="item.name"
-            v-if="`${url}${item.logo}` !== url">
+            v-if="`${item.logo}` !== url">
           <img class="image"
-            :src="`${url}upload/stores/sin-logo.jpg`" 
+            :src="`${url}upload/stores/sin-logo.jpg`"
             :alt="item.name"
             v-if="`${url}${item.logo}` == url">
-          <div v-if="editMode" 
+          <div v-if="editMode"
                class="controles">
             <span class="btn btnAgregar"
               v-if="!more"
@@ -45,9 +45,9 @@
               v-on:click="emitEvent('edit', item)" >
               <i class="material-icons">border_color</i>
             </span>
-            <span class="btn btnEliminar" 
+            <span class="btn btnEliminar"
               v-on:click="emitEvent('delete', item._id)">
-              <i class="material-icons">delete</i> 
+              <i class="material-icons">delete</i>
             </span>
             <div class="estado">
               <i class="material-icons on"
@@ -255,7 +255,7 @@ export default {
     border-radius: 0.2rem;
     background-color: $color-6;
     color: $color-5;
-    border: 1px solid $color-fondo; 
+    border: 1px solid $color-fondo;
     overflow: hidden;
     .info{
       @include flex;
@@ -278,7 +278,7 @@ export default {
         border-radius: 0.2rem;
       }
       .btnEliminar{
-        border: 2px solid $color-err; 
+        border: 2px solid $color-err;
       }
       .estado{
         @include flex;

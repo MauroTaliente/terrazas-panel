@@ -33,8 +33,7 @@
                   <inputText
                     name='Descripcion'
                     :oNmodel="category.info"
-                    v-model="category.info"
-                    v-on:input="categoryControl('new')">
+                    v-model="category.info">
                   </inputText>
                     <inputBoolean
                       name="Estado"
@@ -49,9 +48,12 @@
                   <inputImage
                     name="Imagen de la categoria"
                     :editImage="editImageCat"
-                    v-model="selectImageCat"
-                    v-on:input="superAdd">
+                    v-model="selectImageCat">
                   </inputImage>
+                </div>
+                <div class="loading"
+                v-if="loading">
+                  <img src="/dist/loadSolo.svg" alt="">
                 </div>
               </section>
             </superForm2>
@@ -164,6 +166,10 @@
                       textOn="Local Activo"
                       textOff="Local Inactivo">
                     </inputBoolean>
+                </div>
+                <div class="loading"
+                v-if="loading">
+                  <img src="/dist/loadSolo.svg" alt="">
                 </div>
               </section>
             </superForm2>
@@ -300,9 +306,9 @@
      <div class="debug">
       <!-- <pre><code>{{ $data.selectStores }}</code></pre>
       <br> -->
-      <!--<pre><code>STORES SELECT{{ $data.selectStores }}</code></pre>
+      <pre><code>STORES SELECT{{ $data.selectStores }}</code></pre>
       <br>
-      <pre><code>STORES DISCAR{{ $data.discardStores }}</code></pre>-->
+      <pre><code>STORES DISCAR{{ $data.discardStores }}</code></pre>
     </div>
 
   </div>
@@ -365,6 +371,7 @@ export default {
         name:  'Nueva Categoria',
         type: 'addCat'
       },
+      loading: false,
       editMode: false,
       editModePre: false,
       showFullForm: false,
@@ -585,6 +592,7 @@ export default {
       this.displayStores = selectStores;
     },
     createStore (e){
+      this.loading = true
       let storeCategory = this.selectCategorys;
       let image = this.selectImage
 
@@ -603,12 +611,13 @@ export default {
             formData.append('category', storeCategory[i]._id);
           }
 
-          for (var pair of formData.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]);
-          }
+          // for (var pair of formData.entries()) {
+          //   console.log(pair[0]+ ', ' + pair[1]);
+          // }
 
       axios.post(urlStore, formData)
       .then(res =>{
+        this.loading = false
         this.setMenssage(res)
         this.getAllStores()
         this.resetStore()
@@ -635,7 +644,7 @@ export default {
       }, 100);
     },
     updateStore (e){
-
+      this.loading = true
       let storeCategory = this.selectCategorys;
       let image = this.selectImage
 
@@ -664,6 +673,7 @@ export default {
 
       axios.patch(`${urlStore}/${this.store._id}`, formData)
       .then(res =>{
+        this.loading = false
         this.setMenssage(res);
         this.getAllStores();
         this.resetStore();
@@ -751,8 +761,9 @@ export default {
     },
     //CATEGORY
     createCategory (e){
+      this.loading = true
       let image = this.selectImageCat
-      let categoryStores = this.category.stores
+      let categoryStores = this.selectStores
 
       let formData2 = new FormData();
           formData2.append('_id', helpers.mongoObjectId())
@@ -765,12 +776,13 @@ export default {
             formData2.append('stores', categoryStores[i]._id);
           }
 
-          for (var pair of formData2.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]);
-          }
+          // for (var pair of formData2.entries()) {
+          //   console.log(pair[0]+ ', ' + pair[1]);
+          // }
 
       axios.post(urlCategory, formData2)
       .then(res =>{
+        this.loading = false
         this.setMenssage(res)
         this.getAllCategorys()
         this.resetCategory()
@@ -817,7 +829,7 @@ export default {
       }, 10);
     },
     updateCategory (e){
-
+      this.loading = true
       let image = this.selectImageCat
       let categoryStores = this.selectStores
 
@@ -842,6 +854,7 @@ export default {
 
       axios.patch(`${urlCategory}/${this.category._id}`, formData2)
       .then(res =>{
+        this.loading = false
         this.setMenssage(res);
         this.resetCategory();
         this.getAllCategorys();
@@ -874,8 +887,10 @@ export default {
           this.sendForm(this.formCardCat.type)
         break;
         case 'new':
-          this.selectStores = [];
-          this.superAdd()
+          if (!this.editMode) {
+            this.selectStores = [];
+            this.superAdd()
+          }
         break;
         case 'edit':
           this.setForm('editCat')

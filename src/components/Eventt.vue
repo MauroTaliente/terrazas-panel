@@ -91,6 +91,10 @@
                   textOff="Evento simple">
                 </inputBoolean>
               </div>
+              <div class="loading"
+                v-if="loading">
+                  <img src="/dist/loadSolo.svg" alt="">
+              </div>
             </section>
           </superForm>
         </section>
@@ -113,7 +117,7 @@
               <div class="eventtCard">
                 <h4>{{ eventt.title }}</h4>
                 <img v-if="eventt.eventtImage"
-                  :src="url+eventt.eventtImage"
+                  :src="eventt.eventtImage"
                   :alt="eventt.title">
                 <img v-if="!eventt.eventtImage"
                   src="/dist/none.jpg"
@@ -213,6 +217,7 @@ export default {
         name:  'Nuevo Evento',
         type: 'add'
       },
+      loading: false,
       showFullForm: true,
       showDelete: false,
       errorMenssage: '',
@@ -328,7 +333,7 @@ export default {
     },
     //EVENTT
     createEventt (e){
-
+      this.loading = true
       let eventtPromos = this.selectPromos;
       let image = this.eventtImageSelect;
       let cover = this.eventtCoverSelect;
@@ -355,6 +360,7 @@ export default {
 
       axios.post(urlEventt, formData)
       .then(res =>{
+        this.loading = false
         this.setMenssage(res)
         this.getAllEventts()
         this.resetEventt()
@@ -393,7 +399,7 @@ export default {
       }, 10);
     },
     updateEventt (e){
-
+      this.loading = true
       let eventtPromos = this.selectPromos;
       let image = this.eventtImageSelect;
       let cover = this.eventtCoverSelect;
@@ -429,6 +435,7 @@ export default {
 
       axios.patch(`${urlEventt}/${this.eventt._id}`, formData)
       .then(res =>{
+        this.loading = false
         this.setMenssage(res);
         this.getAllEventts();
         this.toglleAction('add')
